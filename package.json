@@ -1,9 +1,5 @@
 {
   "name": "seal-it-tracker",
   "version": "1.0.0",
-  "main": "index.js",
-  "type": "module",
-  "dependencies": {
-    "querystring": "^0.2.1"
-  }
+  "type": "module"
 }
