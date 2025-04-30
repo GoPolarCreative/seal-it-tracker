@@ -2,8 +2,9 @@ const querystring = require('querystring');
 
 module.exports = async (req, res) => {
   try {
-    let body = '';
+    console.log('📥 Incoming Slack request');
 
+    let body = '';
     await new Promise((resolve) => {
       req.on('data', chunk => {
         body += chunk.toString();
@@ -14,11 +15,12 @@ module.exports = async (req, res) => {
     const parsed = querystring.parse(body);
     const order_number = parsed.text || 'N/A';
 
-    // Slack requires a plain 200 OK and string reply
+    console.log(`✅ Order received: ${order_number}`);
+
     res.setHeader('Content-Type', 'text/plain');
     res.status(200).send(`✅ Slack command received! You entered: ${order_number}`);
-  } catch (error) {
-    console.error('Slack handler error:', error);
-    res.status(200).send(`⚠️ Something went wrong.`);
+  } catch (err) {
+    console.error('❌ Error handling Slack command:', err);
+    res.status(200).send('⚠️ Error handling Slack command.');
   }
 };
